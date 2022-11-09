@@ -17,32 +17,34 @@ export async function signIn() {
         throw new Error('Address not found')
     }
 
+    const chainId = await provider.getNetwork().then(({ chainId }) => chainId)
+
     const message = new SiweMessage({
         domain: window.location.host,
         address,
         statement: 'Sign in to front-end Assignment Example App',
         uri: window.location.origin,
         version: '1',
-        chainId: 10, // giving 10 as need to send to api
+        chainId, // giving 10 as need to send to api
     })
 
     await signer.signMessage(message.prepareMessage())
 
-    await sendData(address) //send data to api endpoint
+    await sendData(address, chainId) //send data to api endpoint
 }
 
-export async function sendData(address: string) {
+export async function sendData(address: string, chainId: number) {
     const body = {
         walletAddress: address,
-        chainId: 10,
+        chainId: chainId,
         member: { did: '' },
     }
     try {
-        const response = await fetch('https://dev-gcn.samudai.xyz/api/member/login', {
+        const response = await fetch('https://dev-gcn.samudai.xyz/api/member/demo/login', {
             method: 'POST',
             body: JSON.stringify(body),
         })
-        if (response.status === 201) console.log('data successfully sent')
+        if (response.ok) console.log('data successfully sent')
     } catch (e) {
         console.log('something wrong with sending data to api')
     }
