@@ -6,7 +6,7 @@ import Page404 from './404'
 import { useEffect } from 'react'
 import { useAppDispatch } from './app/hooks'
 import { getWallet } from './app/utils'
-import { update } from './features/wallet/walletSlice'
+import { setLogout, update } from './features/wallet/walletSlice'
 
 export default function App() {
     const dispatch = useAppDispatch()
@@ -16,7 +16,7 @@ export default function App() {
             .then(values => {
                 dispatch(update({ address: values.address, balance: values.balance.toString() }))
             })
-            .catch()
+            .catch(() => dispatch(setLogout()))
     }, [])
 
     return (

@@ -3,13 +3,13 @@ import { BigNumber } from 'ethers'
 import { RootState } from '../../app/store'
 
 export interface WalletState {
-    status: 'loggedIn' | 'notLoggedIn'
+    status: 'loggedIn' | 'notLoggedIn' | 'dontKnow'
     address: string | null
     balance: string | null
 }
 
 const initialState: WalletState = {
-    status: 'notLoggedIn',
+    status: 'dontKnow',
     address: null,
     balance: null,
 }
@@ -23,7 +23,7 @@ export const walletSlice = createSlice({
             state.address = action.payload.address
             state.balance = action.payload.balance
         },
-        remove: state => {
+        setLogout: state => {
             state.status = 'notLoggedIn'
             state.address = null
             state.balance = null
@@ -31,7 +31,7 @@ export const walletSlice = createSlice({
     },
 })
 
-export const { update, remove } = walletSlice.actions
+export const { update, setLogout } = walletSlice.actions
 
 export const selectWallet = (state: RootState) => state.wallet
 
