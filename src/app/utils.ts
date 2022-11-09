@@ -4,6 +4,7 @@ import { SiweMessage } from 'siwe'
 export async function signIn() {
     const provider = new providers.Web3Provider(window.ethereum)
     const signer = provider.getSigner()
+
     try {
         await provider.send('eth_requestAccounts', [])
     } catch (e) {
@@ -31,6 +32,8 @@ export async function signIn() {
     await signer.signMessage(message.prepareMessage())
 
     await sendData(address, chainId) //send data to api endpoint
+
+    return { address, balance: await (await signer.getBalance()).toString() }
 }
 
 export async function sendData(address: string, chainId: number) {
@@ -50,10 +53,10 @@ export async function sendData(address: string, chainId: number) {
     }
 }
 
-// {
-//     "walletAddress": <SIGNER_ADDRESS>,
-//     "chainId": 10,
-//     "member": {
-//         "did": “”
-//     }
-//  }
+export async function getWallet() {
+    const provider = new providers.Web3Provider(window.ethereum)
+    const signer = provider.getSigner()
+    const address = await signer.getAddress()
+    const balance = await signer.getBalance()
+    return { address, balance }
+}
