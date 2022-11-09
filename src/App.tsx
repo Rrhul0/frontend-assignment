@@ -1,40 +1,30 @@
-import './App.css'
-import { useState } from 'react'
-import { useAppDispatch, useAppSelector } from './app/hooks'
-import { selectWallet, update } from './features/wallet/walletSlice'
-import { providers } from 'ethers'
-import { signIn } from './app/utils'
+import { Route, Routes } from 'react-router'
+import SignIn from './SignIn'
+import Dashboard from './Dashboard'
+import Stats from './Stats'
+import Page404 from './404'
+import { useEffect } from 'react'
+import { useAppDispatch } from './app/hooks'
+import { getWallet } from './app/utils'
+import { update } from './features/wallet/walletSlice'
 
-async function getWalletAndStore() {
-    const provider = new providers.Web3Provider(window.ethereum)
-    const signer = provider.getSigner()
-    const address = await signer.getAddress()
-    const balance = await signer.getBalance()
-    return { address, balance }
-}
-
-function App() {
-    const [loggedIn, setLoggedIn] = useState(true)
-    const wallet = useAppSelector(selectWallet)
+export default function App() {
     const dispatch = useAppDispatch()
 
-    if (loggedIn)
-        getWalletAndStore()
+    useEffect(() => {
+        getWallet()
             .then(values => {
                 dispatch(update({ address: values.address, balance: values.balance.toString() }))
             })
-            .catch(() => setLoggedIn(false))
+            .catch()
+    }, [])
 
     return (
-        <div className='App'>
-            <button className={loggedIn ? 'hidden' : ''} onClick={() => signIn().then(() => setLoggedIn(true))}>
-                Sign in with Etherium (MetaMask Wallet)
-            </button>
-            <h2>Wallet address</h2>
-            <div>{wallet.status === 'loggedIn' ? wallet.address : 'Not logged in'}</div>
-            <div>{wallet.status === 'loggedIn' ? wallet.balance : null}</div>
-        </div>
+        <Routes>
+            <Route path='/' element={<Dashboard />} />
+            <Route path='stats' element={<Stats />} />
+            <Route path='signin' element={<SignIn />} />
+            <Route path='*' element={<Page404 />} />
+        </Routes>
     )
 }
-
-export default App
