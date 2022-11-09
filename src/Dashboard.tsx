@@ -49,6 +49,7 @@ export default function Dashboard() {
             <h2>Wallet address</h2>
             <div>{wallet.status === 'loggedIn' ? wallet.address : 'Not logged in'}</div>
             <div>{wallet.status === 'loggedIn' ? wallet.balance : null}</div>
+            <Link to='/stats'>stats</Link>
             <button onClick={getEvents}>get google calander events</button>
             <ul>
                 {events
@@ -75,50 +76,3 @@ export default function Dashboard() {
         </>
     )
 }
-
-// function googleLogin() {
-//     let tokenClient: string
-//     function gapiLoaded() {
-//         gapi.load('client', initializeGapiClient)
-//     }
-//     async function initializeGapiClient() {
-//         await gapi.client.init({
-//             apiKey: API_KEY,
-//             discoveryDocs: [DISCOVERY_DOC],
-//         })
-//         // maybeEnableButtons()
-//     }
-
-//     /**
-//      * Callback after Google Identity Services are loaded.
-//      */
-//     function gisLoaded() {
-//         tokenClient = google.accounts.oauth2.initTokenClient({
-//             client_id: CLIENT_ID,
-//             scope: SCOPES,
-//             callback: '', // defined later
-//         })
-//         gisInited = true
-//         maybeEnableButtons()
-//     }
-
-//     function handleAuthClick() {
-//         tokenClient.callback = async resp => {
-//             if (resp.error !== undefined) {
-//                 throw resp
-//             }
-//             document.getElementById('signout_button').style.visibility = 'visible'
-//             document.getElementById('authorize_button').innerText = 'Refresh'
-//             await listUpcomingEvents()
-//         }
-
-//         if (gapi.client.getToken() === null) {
-//             // Prompt the user to select a Google Account and ask for consent to share their data
-//             // when establishing a new session.
-//             tokenClient.requestAccessToken({ prompt: 'consent' })
-//         } else {
-//             // Skip display of account chooser and consent dialog for an existing session.
-//             tokenClient.requestAccessToken({ prompt: '' })
-//         }
-//     }
-// }
