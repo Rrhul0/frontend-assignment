@@ -1,6 +1,8 @@
 // import { providers } from 'ethers'
 // import { SiweMessage } from 'siwe'
 
+import ApiCalendar from 'react-google-calendar-api'
+
 // export async function signIn(connector: 'metamask' | 'walletconnect') {
 //     let provider: providers.Web3Provider
 
@@ -67,3 +69,15 @@ export async function sendData(address: `0x${string}`, chainId: number) {
 //     const balance = await signer.getBalance()
 //     return { address, balance }
 // }
+
+const CLIENT_ID = process.env.REACT_APP_GOOGLE_CLIENT_ID || ''
+const API_KEY = process.env.REACT_APP_GOOGLE_API_KEY || ''
+const SCOPES = 'https://www.googleapis.com/auth/calendar.readonly'
+const DISCOVERY_DOC = ['https://www.googleapis.com/discovery/v1/apis/calendar/v3/rest']
+
+export const apiCalendar = new ApiCalendar({
+    clientId: CLIENT_ID,
+    apiKey: API_KEY,
+    scope: SCOPES,
+    discoveryDocs: DISCOVERY_DOC,
+})
