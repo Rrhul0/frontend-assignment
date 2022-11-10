@@ -1,4 +1,5 @@
 import { useAppSelector } from './app/hooks'
+import BlockHeightWidget from './components/blockheight.widget'
 import TxnsWidget from './components/txns.widget'
 import { selectWallet } from './features/wallet/walletSlice'
 
@@ -11,6 +12,7 @@ export default function Stats() {
         <>
             <h2>Stats Page</h2>
             <TxnsWidget address={wallet.address} />
+            <BlockHeightWidget />
         </>
     )
 }
