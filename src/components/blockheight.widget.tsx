@@ -7,21 +7,22 @@ export default function BlockHeightWidget() {
     const [height, setHeight] = useState(0)
 
     useEffect(() => {
-        //get height every 15 sec as 
+        //get height every 15 sec as
         //api has limit of 100 requests every hour
-        setInterval(function () {
-            getHeight()
-                .then(hei => setHeight(hei))
-                .catch(() => console.log('error in fetch height'))
+        async function getHeight() {
+            const res = await fetch(API_ENDPOINT)
+            const resJson = await res.json()
+            setHeight(resJson.height)
+        }
+        getHeight().catch(() => console.log('error in fetch height'))
+
+        const interval = setInterval(function () {
+            getHeight().catch(() => {
+                console.log('error in fetch height')
+                clearInterval(interval)
+            })
         }, 15000)
     }, [])
 
     return <>Current Block Height: {height}</>
-}
-
-async function getHeight() {
-    const res = await fetch(API_ENDPOINT)
-    const resJson = await res.json()
-    const height: number = resJson.height
-    return height
 }
