@@ -7,6 +7,7 @@ import App from './App'
 import client from './app/connectWalletClient'
 import { WagmiConfig } from 'wagmi'
 import { Buffer } from 'buffer'
+import './index.css'
 
 // polyfill Buffer for client
 if (!window.Buffer) {
