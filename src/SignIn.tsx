@@ -1,25 +1,30 @@
-import './App.css'
-import { useAppDispatch } from './app/hooks'
-import { update } from './features/wallet/walletSlice'
-import { signIn } from './app/utils'
+import { sendData } from './app/utils'
 import { useNavigate } from 'react-router'
+import { useConnect } from 'wagmi'
 
 export default function SignIn() {
-    const dispatch = useAppDispatch()
     const navigate = useNavigate()
-
-    function onClickSignIn() {
-        signIn()
-            .then(res => {
-                res && dispatch(update(res))
-                navigate('/')
-            })
-            .catch(() => console.log('something wrong with signin process'))
-    }
+    const { connect, connectors, error, isLoading, pendingConnector } = useConnect({
+        onSuccess(data) {
+            sendData(data.account, data.chain.id)
+            navigate('/')
+        },
+    })
 
     return (
-        <div className='App'>
-            <button onClick={onClickSignIn}>Sign in with Etherium (MetaMask Wallet)</button>
+        <div>
+            <h2>Sign in with Etherium</h2>
+            <div>
+                {connectors.map(connector => (
+                    <button disabled={!connector.ready} key={connector.id} onClick={() => connect({ connector })}>
+                        {connector.name}
+                        {!connector.ready && ' (unsupported)'}
+                        {isLoading && connector.id === pendingConnector?.id && ' (connecting)'}
+                    </button>
+                ))}
+
+                {error && <div>{error.message}</div>}
+            </div>
         </div>
     )
 }

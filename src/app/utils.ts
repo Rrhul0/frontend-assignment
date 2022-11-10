@@ -1,42 +1,49 @@
-import { providers } from 'ethers'
-import { SiweMessage } from 'siwe'
+// import { providers } from 'ethers'
+// import { SiweMessage } from 'siwe'
 
-export async function signIn() {
-    const provider = new providers.Web3Provider(window.ethereum)
-    const signer = provider.getSigner()
+// export async function signIn(connector: 'metamask' | 'walletconnect') {
+//     let provider: providers.Web3Provider
 
-    try {
-        await provider.send('eth_requestAccounts', [])
-    } catch (e) {
-        console.log('user rejected request')
-        return
-    }
+//     if (connector === 'walletconnect') {
+//         // //connect with walletconnect
+//         provider = new providers.Web3Provider(window.ethereum)
+//     } else if (connector === 'metamask') {
+//         //connect with metamask
+//         provider = new providers.Web3Provider(window.ethereum)
+//     } else return
+//     const signer = provider.getSigner()
+//     try {
+//         await provider.send('eth_requestAccounts', [])
+//     } catch (e) {
+//         console.log('user rejected request')
+//         return
+//     }
 
-    const [address] = await provider.listAccounts()
+//     const [address] = await provider.listAccounts()
 
-    if (!address) {
-        throw new Error('Address not found')
-    }
+//     if (!address) {
+//         throw new Error('Address not found')
+//     }
 
-    const chainId = await provider.getNetwork().then(({ chainId }) => chainId)
+//     const chainId = await provider.getNetwork().then(({ chainId }) => chainId)
 
-    const message = new SiweMessage({
-        domain: window.location.host,
-        address,
-        statement: 'Sign in to front-end Assignment Example App',
-        uri: window.location.origin,
-        version: '1',
-        chainId, // giving 10 as need to send to api
-    })
+//     const message = new SiweMessage({
+//         domain: window.location.host,
+//         address,
+//         statement: 'Sign in to front-end Assignment Example App',
+//         uri: window.location.origin,
+//         version: '1',
+//         chainId, // giving 10 as need to send to api
+//     })
 
-    await signer.signMessage(message.prepareMessage())
+//     await signer.signMessage(message.prepareMessage())
 
-    await sendData(address, chainId) //send data to api endpoint
+//     await sendData(address, chainId) //send data to api endpoint
 
-    return { address, balance: await (await signer.getBalance()).toString() }
-}
+//     return { address, balance: await (await signer.getBalance()).toString() }
+// }
 
-export async function sendData(address: string, chainId: number) {
+export async function sendData(address: `0x${string}`, chainId: number) {
     const body = {
         walletAddress: address,
         chainId: chainId,
@@ -53,10 +60,10 @@ export async function sendData(address: string, chainId: number) {
     }
 }
 
-export async function getWallet() {
-    const provider = new providers.Web3Provider(window.ethereum)
-    const signer = provider.getSigner()
-    const address = await signer.getAddress()
-    const balance = await signer.getBalance()
-    return { address, balance }
-}
+// export async function getWallet() {
+//     const provider = new providers.Web3Provider(window.ethereum)
+//     const signer = provider.getSigner()
+//     const address = await signer.getAddress()
+//     const balance = await signer.getBalance()
+//     return { address, balance }
+// }

@@ -1,24 +1,25 @@
 import { useEffect } from 'react'
 import { useNavigate } from 'react-router'
-import { useAppSelector } from './app/hooks'
 import BlockHeightWidget from './components/blockheight.widget'
 import TxnsWidget from './components/txns.widget'
-import { selectWallet } from './features/wallet/walletSlice'
+import { useAccount } from 'wagmi'
+import { Link } from 'react-router-dom'
 
 export default function Stats() {
-    const wallet = useAppSelector(selectWallet)
+    const { address, isConnected } = useAccount()
+
     const navigate = useNavigate()
 
     useEffect(() => {
-        if (wallet.status === 'notLoggedIn') navigate('/signin')
+        if (!isConnected) navigate('/signin')
     })
-
-    if (wallet.status === 'dontKnow') return <>Loading</>
 
     return (
         <>
+            <Link to='/'>Home</Link>
             <h2>Stats Page</h2>
-            <TxnsWidget address={wallet.address} />
+            <h4>Address: {address}</h4>
+            <TxnsWidget address={address} />
             <BlockHeightWidget />
         </>
     )

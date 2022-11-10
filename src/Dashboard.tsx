@@ -1,21 +1,24 @@
 import { Link } from 'react-router-dom'
-import { useAppSelector } from './app/hooks'
-import { selectWallet } from './features/wallet/walletSlice'
 import ApiCalendar from 'react-google-calendar-api'
 import { useState } from 'react'
+import { useAccount, useDisconnect, useEnsName, useBlockNumber } from 'wagmi'
 
-const CLIENT_ID = '1075249219041-r8idln1a2mk01jicab84q7k0mp1i1r1m.apps.googleusercontent.com'
-const API_KEY = 'AIzaSyD0ZCsIM_L4u6t5_ET0rWQiXaS-c237z5U'
+const CLIENT_ID = process.env.REACT_APP_GOOGLE_CLIENT_ID || ''
+const API_KEY = process.env.REACT_APP_GOOGLE_API_KEY || ''
 const SCOPES = 'https://www.googleapis.com/auth/calendar'
 const DISCOVERY_DOC = ['https://www.googleapis.com/discovery/v1/apis/calendar/v3/rest']
 
 export default function Dashboard() {
     const [eventsRes, setEventsRes] = useState<any>()
     const [googleLoggedIn, setGoogleLoggedIn] = useState<'notLoggedIn' | 'loggedIn' | 'loading'>('notLoggedIn')
-    const wallet = useAppSelector(selectWallet)
+
+    const { address, connector, isConnected } = useAccount()
+    const { data: ensName } = useEnsName({ address })
+    const { disconnect } = useDisconnect()
+
+    const { data, isError, isLoading } = useBlockNumber({ watch: true })
 
     const events: Array<any> = eventsRes?.items
-    console.log(events)
 
     function getEvents() {
         apiCalendar
@@ -41,15 +44,20 @@ export default function Dashboard() {
         }
     }
 
-    if (wallet.status === 'dontKnow') return <>Loading</>
-    if (wallet.status === 'notLoggedIn') return <Link to={'signin'}>SignIn</Link>
 
     return (
         <>
-            <h2>Wallet address</h2>
-            <div>{wallet.status === 'loggedIn' ? wallet.address : 'Not logged in'}</div>
-            <div>{wallet.status === 'loggedIn' ? wallet.balance : null}</div>
+            {isConnected ? (
+                <div>
+                    <div>{ensName ? `${ensName} (${address})` : address}</div>
+                    <div>Connected to {connector?.name}</div>
+                    <button onClick={() => disconnect()}>Disconnect</button>
+                </div>
+            ) : (
+                <Link to={'signin'}>SignIn</Link>
+            )}
             <Link to='/stats'>stats</Link>
+            <div>Block number: {data}</div>
             <button onClick={getEvents}>get google calander events</button>
             <ul>
                 {events

@@ -1,17 +1,16 @@
-import { Wallet } from 'ethers'
 import { useEffect, useState } from 'react'
 
 //api endpoint
 const API_ENDPOINT = 'https://api.blockcypher.com/v1/eth/main/addrs/' //<ADDR>
 
-export default function TxnsWidget({ address }: { address: string | null }) {
+export default function TxnsWidget({ address }: { address?: `0x${string}` }) {
     const [txns, setTxns] = useState<Array<any>>([])
 
     useEffect(() => {
         getTxns(address)
     }, [address])
 
-    async function getTxns(address: string | null) {
+    async function getTxns(address?: `0x${string}`) {
         if (!address) return
 
         try {
