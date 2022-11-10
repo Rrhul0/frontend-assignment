@@ -1,7 +1,7 @@
 import { Link } from 'react-router-dom'
 import ApiCalendar from 'react-google-calendar-api'
 import { useState } from 'react'
-import { useAccount, useDisconnect, useEnsName, useBlockNumber } from 'wagmi'
+import { useAccount, useDisconnect, useEnsName } from 'wagmi'
 
 const CLIENT_ID = process.env.REACT_APP_GOOGLE_CLIENT_ID || ''
 const API_KEY = process.env.REACT_APP_GOOGLE_API_KEY || ''
@@ -15,8 +15,6 @@ export default function Dashboard() {
     const { address, connector, isConnected } = useAccount()
     const { data: ensName } = useEnsName({ address })
     const { disconnect } = useDisconnect()
-
-    const { data, isError, isLoading } = useBlockNumber({ watch: true })
 
     const events: Array<any> = eventsRes?.items
 
@@ -44,7 +42,6 @@ export default function Dashboard() {
         }
     }
 
-
     return (
         <>
             {isConnected ? (
@@ -57,7 +54,6 @@ export default function Dashboard() {
                 <Link to={'signin'}>SignIn</Link>
             )}
             <Link to='/stats'>stats</Link>
-            <div>Block number: {data}</div>
             <button onClick={getEvents}>get google calander events</button>
             <ul>
                 {events
