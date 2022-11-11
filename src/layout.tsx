@@ -14,10 +14,10 @@ export default function Layout() {
             <div className='basis-2/12 flex flex-col items-center justify-between h-full py-10 px-12 border-r'>
                 <div className='flex flex-col items-center gap-24'>
                     <div className='text-center'>
-                        <h1 className='font-extrabold text-4xl text-sky-800 uppercase'>Samudai</h1>
-                        <h2 className='font-extrabold text-3xl text-pink-400 uppercase'>Assignment</h2>
+                        <h1 className='font-extrabold text-4xl text-primary uppercase'>Samudai</h1>
+                        <h2 className='font-extrabold text-3xl text-secondry uppercase'>Assignment</h2>
                     </div>
-                    <nav className=' flex flex-col text-center gap-12 font-bold text-xl text-stone-500'>
+                    <nav className=' flex flex-col text-center gap-12 font-bold text-xl text-secondry'>
                         <NavLink
                             className={'text-xl hover:text-stone-900 '}
                             style={({ isActive }) => (isActive ? { color: 'rgb(28 25 23 )' } : undefined)}
