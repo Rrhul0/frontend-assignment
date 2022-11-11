@@ -3,7 +3,6 @@ import { useNavigate } from 'react-router'
 import BlockHeightWidget from './components/blockheight.widget'
 import TxnsWidget from './components/txns.widget'
 import { useAccount } from 'wagmi'
-import { Link } from 'react-router-dom'
 
 export default function Stats() {
     const { address, isConnected } = useAccount()
@@ -15,12 +14,15 @@ export default function Stats() {
     })
 
     return (
-        <>
-            <Link to='/'>Home</Link>
-            <h2>Stats Page</h2>
-            <h4>Address: {address}</h4>
+        <div className='grid grid-cols-6 grid-rows-2 w-full h-full gap-8 p-4 '>
             <TxnsWidget address={address} />
+            <div className='bg-[#0B45F5] col-span-2 shadow-zinc-700  shadow-2xl rounded-2xl p-8 flex items-center justify-center text-[#f59191] text-3xl font-bold'>
+                Widget not configured
+            </div>
+            <div className='bg-[#0B45F5] col-span-3  shadow-zinc-700  shadow-2xl rounded-2xl p-8 flex items-center justify-center text-[#f59191] text-3xl font-bold'>
+                Widget not configured
+            </div>
             <BlockHeightWidget />
-        </>
+        </div>
     )
 }

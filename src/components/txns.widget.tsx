@@ -1,4 +1,8 @@
 import { useEffect, useState } from 'react'
+import { BsQuestionCircleFill } from 'react-icons/bs'
+import { GrRefresh } from 'react-icons/gr'
+import { text } from 'stream/consumers'
+import TxnCard from './TxnCard'
 
 //api endpoint
 const API_ENDPOINT = 'https://api.blockcypher.com/v1/eth/main/addrs/' //<ADDR>
@@ -16,31 +20,48 @@ export default function TxnsWidget({ address }: { address?: `0x${string}` }) {
         try {
             const res = await fetch(API_ENDPOINT + address)
             const resJson = await res.json()
-            console.log(resJson)
-            if (resJson.txrefs) setTxns(resJson.txrefs)
+            if (resJson.txrefs) setTxns(resJson.txrefs?.flat())
             else setTxns([])
         } catch {
-            console.log('something wrong with fetching api')
+            console.log('something wrong with fetching transactions')
         }
     }
 
-    if (!address) return <>No address found</>
-
     return (
-        <>
-            <button onClick={() => getTxns(address)}>Refresh Txns</button>
+        <div className='bg-[#0B45F5] overflow-hidden col-span-4 shadow-zinc-700  shadow-2xl text-white rounded-3xl px-8 py-6'>
+            <div className='flex items-center justify-between border-b-2 pb-2'>
+                <div className='flex items-center gap-3'>
+                    <h3 className='font-bold text-3xl'>Transactions</h3>
+                    <div className='relative flex flex-col items-center group'>
+                        <BsQuestionCircleFill size={20} />
+                        <div className='absolute  left-7 -top-7 z-10 hidden flex-row mb-6 group-hover:flex'>
+                            <span className=' p-2 text-xs leading-none  text-primary whitespace-no-wrap bg-white shadow-lg rounded-md'>
+                                All Transactions made by logged in wallet
+                            </span>
+                        </div>
+                    </div>
+                </div>
+                <div className='relative flex flex-col items-center group'>
+                    <button onClick={() => getTxns(address)} className='bg-blue-400 p-2 rounded-lg'>
+                        <GrRefresh />
+                    </button>
+                    <div className='absolute bottom-0 flex-col z-10 items-center hidden mb-9 group-hover:flex'>
+                        <span className='p-2 text-xs leading-none text-primary whitespace-no-wrap bg-white shadow-lg rounded-md'>
+                            Refresh
+                        </span>
+                        <div className='w-3 h-3 -mt-2 rotate-45 bg-white'></div>
+                    </div>
+                </div>
+            </div>
             {txns.length ? (
-                <ul>
+                <ul className='overflow-scroll pb-10 h-full'>
                     {txns.map((txn: any) => (
-                        <li key={txn.tx_hash}>
-                            <div>txn hash: {txn.tx_hash}</div>
-                            <div>block height: {txn.block_height}</div>
-                        </li>
+                        <TxnCard txn={txn} />
                     ))}
                 </ul>
             ) : (
-                <div>No transactions made from this wallet</div>
+                <div className='py-4 text-lg'>No transactions made from this wallet</div>
             )}
-        </>
+        </div>
     )
 }
