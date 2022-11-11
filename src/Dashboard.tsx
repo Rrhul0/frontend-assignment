@@ -1,24 +1,27 @@
-import { Link } from 'react-router-dom'
-import { useAccount, useDisconnect, useEnsName } from 'wagmi'
+import { useAccount, useEnsName } from 'wagmi'
 import GoogleEvents from './components/googleEvents'
 
 export default function Dashboard() {
     const { address, connector, isConnected } = useAccount()
     const { data: ensName } = useEnsName({ address })
-    const { disconnect } = useDisconnect()
 
     return (
         <>
             {isConnected ? (
                 <div>
-                    <div>{ensName ? `${ensName} (${address})` : address}</div>
-                    <div>Connected to {connector?.name}</div>
-                    <button onClick={() => disconnect()}>Disconnect</button>
+                    <div className='text-lg text-pink-400 font-bold'>Wallet Properties</div>
+                    <div className='border rounded-md py-2 px-3'>
+                        <div className='text-lg font-semibold'>
+                            Address:
+                            <span className='text-lg text-stone-700'>
+                                {' '}
+                                {ensName ? `${ensName} (${address})` : address}
+                            </span>
+                        </div>
+                        <div>Connected to {connector?.name}</div>
+                    </div>
                 </div>
-            ) : (
-                <Link to={'signin'}>SignIn</Link>
-            )}
-            <Link to='/stats'>stats</Link>
+            ) : null}
             <GoogleEvents />
         </>
     )

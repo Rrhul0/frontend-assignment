@@ -1,6 +1,5 @@
 import { useEffect, useState } from 'react'
 import { apiCalendar } from '../app/utils'
-// import { useAccount, useDisconnect } from 'wagmi'
 
 export default function GoogleEvents() {
     const [events, setEvents] = useState<Array<any>>([])
@@ -8,14 +7,10 @@ export default function GoogleEvents() {
     useEffect(() => {
         setGoogleLoggedIn(apiCalendar.sign)
     }, [])
-    console.log(apiCalendar)
-
-    // const { address, connector, isConnected } = useAccount()
-    // const { disconnect } = useDisconnect()
 
     function getEvents() {
         apiCalendar
-            .listUpcomingEvents(10, 'primary')
+            .listUpcomingEvents(5, 'primary')
             .then((res: any) => setEvents(JSON.parse(res.body).items))
             .catch(() => console.log('error in getting events'))
     }
@@ -32,7 +27,6 @@ export default function GoogleEvents() {
     }
     return (
         <>
-            <div>{googleLoggedIn ? 'true' : 'false'}</div>
             {googleLoggedIn ? (
                 <>
                     <button onClick={getEvents}>get google calander events</button>
