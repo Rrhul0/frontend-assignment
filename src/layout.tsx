@@ -6,20 +6,18 @@ import { useAppDispatch } from './app/hooks'
 import { logOut } from './features/events/eventSlice'
 
 export default function Layout() {
-    const { address, connector, isConnected } = useAccount()
+    const { isConnected } = useAccount()
     const { disconnect } = useDisconnect()
     const dispatch = useAppDispatch()
 
     return (
         <div className='h-screen w-screen flex '>
-            {/* <header className='flex justify-between items-center w-full h-20 px-16 border-b '></header> */}
-
             <div className='basis-2/12 flex flex-col items-center justify-between h-full py-10 px-12 border-r'>
                 <div className='flex flex-col items-center gap-24'>
-                    <div className='text-center'>
+                    <Link to='/' className='text-center'>
                         <h1 className='font-extrabold text-4xl text-primary uppercase'>Samudai</h1>
                         <h2 className='font-extrabold text-3xl text-secondry uppercase'>Assignment</h2>
-                    </div>
+                    </Link>
                     <nav className=' flex flex-col text-center gap-12 font-bold text-xl text-secondry'>
                         <NavLink
                             className={'text-xl hover:text-stone-900 '}
@@ -63,11 +61,12 @@ export default function Layout() {
                         </button>
                     </div>
                 ) : (
-                    <Link
+                    <NavLink
                         to='/signin'
+                        style={({ isActive }) => (isActive ? { background: 'rgb(251 207 232)' } : undefined)}
                         className='border-2 rounded-lg px-6 py-1 text-lg hover:bg-pink-200 border-pink-200'>
                         SignIn
-                    </Link>
+                    </NavLink>
                 )}
             </div>
             <main className='px-16 py-4 flex-auto'>
