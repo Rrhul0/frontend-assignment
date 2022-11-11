@@ -1,39 +1,53 @@
-import { useEffect, useState } from 'react'
+import { useAppDispatch, useAppSelector } from '../app/hooks'
 import { apiCalendar } from '../app/utils'
+import { logIn, logOut, selectGoogleEvents, updateEvents } from '../features/events/eventSlice'
 
 export default function GoogleEvents() {
-    const [events, setEvents] = useState<Array<any>>([])
-    const [googleLoggedIn, setGoogleLoggedIn] = useState(false)
-    useEffect(() => {
-        setGoogleLoggedIn(apiCalendar.sign)
-    }, [])
+    const googleEvents = useAppSelector(selectGoogleEvents)
+    const dispatch = useAppDispatch()
 
     function getEvents() {
         apiCalendar
-            .listUpcomingEvents(5, 'primary')
-            .then((res: any) => setEvents(JSON.parse(res.body).items))
-            .catch(() => console.log('error in getting events'))
+            .listUpcomingEvents(10, 'primary')
+            .then((res: any) => {
+                const rawEvents = JSON.parse(res.body).items
+                dispatch(
+                    updateEvents(
+                        rawEvents.map((rawEvent: any) => {
+                            return {
+                                desc: rawEvent.summary,
+                                startDate: rawEvent.start.date,
+                                endDate: rawEvent.end.date,
+                                id: rawEvent.etag,
+                            }
+                        })
+                    )
+                )
+            })
+            .catch(() => {
+                dispatch(logOut())
+                console.log('error in getting events')
+            })
     }
-    useEffect(() => {}, [events.length, googleLoggedIn])
 
     function googleLogin() {
-        // setGoogleLoggedIn('loading')
         try {
             apiCalendar.handleAuthClick()
-            setGoogleLoggedIn(true)
+            dispatch(logIn())
         } catch (e) {
-            setGoogleLoggedIn(false)
+            console.log('error in google log in')
+            dispatch(logOut())
         }
     }
     return (
         <>
-            {googleLoggedIn ? (
+            {googleEvents.loginStatus === 'loggedIn' ? (
                 <>
                     <button onClick={getEvents}>get google calander events</button>
                     <button
                         onClick={() => {
                             apiCalendar.handleSignoutClick()
-                            setGoogleLoggedIn(false)
+                            dispatch(logOut())
                         }}>
                         logout Google
                     </button>
@@ -42,12 +56,12 @@ export default function GoogleEvents() {
                 <button onClick={googleLogin}>LogIn</button>
             )}
             <ul>
-                {events
-                    ? events.map((event: any, index) => (
-                          <li key={index}>
-                              <h3>{event.summary}</h3>
-                              <div>start date: {event.start.date}</div>
-                              <div>end date: {event.end.date}</div>
+                {googleEvents.events.length !== 0
+                    ? googleEvents.events.map(event => (
+                          <li key={event.id}>
+                              <h3>{event.desc}</h3>
+                              <div>start date: {event.startDate}</div>
+                              <div>end date: {event.endDate}</div>
                           </li>
                       ))
                     : null}

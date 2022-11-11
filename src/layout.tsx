@@ -2,10 +2,13 @@ import { Outlet } from 'react-router'
 import { Link, NavLink } from 'react-router-dom'
 import { useAccount, useDisconnect } from 'wagmi'
 import { MdOpenInNew } from 'react-icons/md'
+import { useAppDispatch } from './app/hooks'
+import { logOut } from './features/events/eventSlice'
 
 export default function Layout() {
     const { address, connector, isConnected } = useAccount()
     const { disconnect } = useDisconnect()
+    const dispatch = useAppDispatch()
 
     return (
         <div className='h-screen w-screen flex '>
@@ -52,7 +55,10 @@ export default function Layout() {
                     <div className='flex gap-3 items-center'>
                         <button
                             className='border-2 rounded-lg px-6 py-1 text-lg hover:bg-pink-200 border-pink-200'
-                            onClick={() => disconnect()}>
+                            onClick={() => {
+                                disconnect()
+                                dispatch(logOut())
+                            }}>
                             LogOut
                         </button>
                     </div>

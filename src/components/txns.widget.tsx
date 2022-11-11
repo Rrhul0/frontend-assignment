@@ -1,7 +1,6 @@
 import { useEffect, useState } from 'react'
 import { BsQuestionCircleFill } from 'react-icons/bs'
 import { GrRefresh } from 'react-icons/gr'
-import { text } from 'stream/consumers'
 import TxnCard from './TxnCard'
 
 //api endpoint
