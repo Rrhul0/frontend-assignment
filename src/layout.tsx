@@ -1,6 +1,7 @@
 import { Outlet } from 'react-router'
-import { Link } from 'react-router-dom'
+import { Link, NavLink } from 'react-router-dom'
 import { useAccount, useDisconnect } from 'wagmi'
+import { MdOpenInNew } from 'react-icons/md'
 
 export default function Layout() {
     const { address, connector, isConnected } = useAccount()
@@ -13,19 +14,38 @@ export default function Layout() {
             <div className='basis-2/12 flex flex-col items-center justify-between h-full py-10 px-12 border-r'>
                 <div className='flex flex-col items-center gap-24'>
                     <div className='text-center'>
-                        <h1 className='font-extrabold text-4xl text-pink-400 uppercase'>Samudai</h1>
+                        <h1 className='font-extrabold text-4xl text-sky-800 uppercase'>Samudai</h1>
                         <h2 className='font-extrabold text-3xl text-pink-400 uppercase'>Assignment</h2>
                     </div>
                     <nav className=' flex flex-col text-center gap-12 font-bold text-xl text-stone-500'>
-                        <Link className='text-lg hover:text-stone-900' to='/'>
+                        <NavLink
+                            className={'text-xl hover:text-stone-900 '}
+                            style={({ isActive }) => (isActive ? { color: 'rgb(28 25 23 )' } : undefined)}
+                            to='/'>
                             Home
-                        </Link>
-                        <Link className='text-lg hover:text-stone-900' to='/dashboard'>
+                        </NavLink>
+                        <NavLink
+                            className='text-lg hover:text-stone-900'
+                            style={({ isActive }) => (isActive ? { color: 'rgb(28 25 23 )' } : undefined)}
+                            to='/dashboard'>
                             Dashboard
-                        </Link>
-                        <Link className='text-lg hover:text-stone-900' to='/stats'>
+                        </NavLink>
+                        <NavLink
+                            className='text-lg hover:text-stone-900'
+                            style={({ isActive }) => (isActive ? { color: 'rgb(28 25 23 )' } : undefined)}
+                            to='/stats'>
                             Statistics
-                        </Link>
+                        </NavLink>
+                        <a
+                            href='https://github.com/Rrhul0/frontend-assignment'
+                            target='_blank'
+                            rel='noreferrer'
+                            className='text-lg hover:text-stone-900'>
+                            <div className='flex items-center gap-2'>
+                                GitHub
+                                <MdOpenInNew />
+                            </div>
+                        </a>
                     </nav>
                 </div>
                 {isConnected ? (
