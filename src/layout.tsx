@@ -17,7 +17,7 @@ export default function Layout() {
     const dispatch = useAppDispatch()
 
     return (
-        <div className='h-screen w-screen flex pl-16 md:pl-0'>
+        <div className='h-screen w-screen flex pl-20 md:pl-0'>
             <div
                 className={
                     (showFull ? 'px-10' : ' px-4 ') +

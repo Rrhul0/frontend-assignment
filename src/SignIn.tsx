@@ -1,6 +1,7 @@
 import { sendData } from './app/utils'
 import { useNavigate } from 'react-router'
-import { useConnect } from 'wagmi'
+import { useAccount, useConnect } from 'wagmi'
+import { useEffect } from 'react'
 
 export default function SignIn() {
     const navigate = useNavigate()
@@ -10,6 +11,12 @@ export default function SignIn() {
             navigate('/dashboard')
         },
     })
+    const { isConnected } = useAccount()
+
+    //block accessing signin page after logged in
+    useEffect(() => {
+        if (isConnected) navigate('/dashboard')
+    }, [])
 
     return (
         <div className='flex flex-col items-center justify-evenly min-h-full w-fit mx-auto gap-5'>
