@@ -54,7 +54,7 @@ export default function Layout() {
                             className='text-lg hover:text-stone-900'
                             style={({ isActive }) => (isActive ? { color: 'rgb(28 25 23 )' } : undefined)}
                             to='/stats'>
-                            <div className='flex items-center gap-2 pl-1'>
+                            <div className='flex items-center gap-2 pl-1.5'>
                                 <ImStatsDots size='22' />
                                 <div className={showFull ? 'block' : 'hidden md:block'}>Statistics</div>
                             </div>

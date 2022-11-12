@@ -12,7 +12,7 @@ export default function SignIn() {
     })
 
     return (
-        <div className='flex flex-col items-center justify-center w-fit mx-auto gap-5'>
+        <div className='flex flex-col items-center justify-evenly min-h-full w-fit mx-auto gap-5'>
             <h2 className='md:px-10 text-6xl font-bold text-primary '>Sign in with Etherium Wallets</h2>
             <div className='grid sm:grid-cols-2 sm:grid-rows-2 gap-4'>
                 {connectors.map(connector => (

@@ -2,7 +2,7 @@ import { Link } from 'react-router-dom'
 
 export default function Page404() {
     return (
-        <main className='flex flex-col items-start justify-center h-full w-fit mx-auto'>
+        <main className='flex flex-col items-start justify-center h-full w-fit mx-auto px-6'>
             <div className='rounded-2xl text-white bg-secondry py-1 px-2'>Page not found</div>
             <h1 className='text-6xl font-bold text-primary py-5'>Oh No! Error 404</h1>
             <h2 className='text-secondry font-semibold'>

@@ -1,17 +1,12 @@
-import { useEffect } from 'react'
-import { useNavigate } from 'react-router'
 import BlockHeightWidget from './components/blockheight.widget'
 import TxnsWidget from './components/txns.widget'
 import { useAccount } from 'wagmi'
+import LoginFirst from './components/loginFirst'
 
 export default function Stats() {
     const { address, isConnected } = useAccount()
 
-    const navigate = useNavigate()
-
-    useEffect(() => {
-        if (!isConnected) navigate('/signin')
-    })
+    if (!isConnected) return <LoginFirst />
 
     return (
         <div className='grid lg:grid-cols-6 lg:grid-rows-2 w-full h-full gap-8 p-4 '>
