@@ -17,10 +17,14 @@ export default function Layout() {
     const dispatch = useAppDispatch()
 
     return (
-        <div className='h-screen w-screen flex '>
-            <div className='md:basis-2/12 flex flex-col items-center justify-between h-full py-10 px-4 md:px-12 border-r'>
-                <div className='flex flex-col items-center gap-24'>
-                    <Link to='/' className='hidden md:block text-center'>
+        <div className='h-screen w-screen flex pl-16 md:pl-0'>
+            <div
+                className={
+                    (showFull ? 'px-6' : ' px-4 ') +
+                    ' absolute z-10 left-0 top-0 md:static bg-white md:basis-2/12 flex flex-col items-center justify-between h-full py-10 md:px-12 border-r'
+                }>
+                <div className=' flex flex-col items-center gap-16 '>
+                    <Link to='/' className='hidden md:block text-center border-b-2 pb-2'>
                         <h1 className='font-extrabold text-4xl text-primary uppercase'>Samudai</h1>
                         <h2 className='font-extrabold text-3xl text-secondry uppercase'>Assignment</h2>
                     </Link>
@@ -92,7 +96,7 @@ export default function Layout() {
                     )}
                 </div>
             </div>
-            <main className='px-16 py-4 flex-auto'>
+            <main className='h-full p-4 flex-auto overflow-scroll'>
                 <Outlet />
             </main>
         </div>
