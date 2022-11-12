@@ -7,7 +7,7 @@ export default function SignIn() {
     const { connect, connectors, error, isLoading, pendingConnector } = useConnect({
         onSuccess(data) {
             sendData(data.account, data.chain.id)
-            navigate('/')
+            navigate('/dashboard')
         },
     })
 
