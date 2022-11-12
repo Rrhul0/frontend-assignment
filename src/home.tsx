@@ -40,6 +40,7 @@ export default function Home() {
                         page with every route other then defined above
                     </li>
                 </ol>
+                <p className='text-primary text-lg'>All pages are fully Mobile Responsive</p>
             </section>
             <section className='flex flex-col gap-4 items-start ml-auto'>
                 <h2 className='uppercase text-primary font-bold text-2xl'>By Rahul</h2>

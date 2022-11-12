@@ -7,7 +7,7 @@ import { logOut } from './features/events/eventSlice'
 import { GiHamburgerMenu } from 'react-icons/gi'
 import { GrClose } from 'react-icons/gr'
 import { ImStatsDots, ImGithub } from 'react-icons/im'
-import { FiHome } from 'react-icons/fi'
+import { FiHome, FiLogIn, FiLogOut } from 'react-icons/fi'
 import { useState } from 'react'
 
 export default function Layout() {
@@ -76,26 +76,44 @@ export default function Layout() {
                         </a>
                     </nav>
                 </div>
-                <div className={showFull ? 'block' : 'hidden md:block'}>
+                <div>
                     {isConnected ? (
                         <div className='flex gap-3 items-center'>
                             <button
-                                className='border-2 rounded-lg px-6 py-1 text-lg hover:bg-pink-200 border-pink-200'
+                                className='border-2 rounded-lg hover:bg-pink-200 border-pink-200'
                                 onClick={() => {
                                     disconnect()
                                     dispatch(logOut())
                                     setShowFull(false)
                                 }}>
-                                LogOut
+                                <FiLogOut
+                                    className={(!showFull ? 'block' : 'hidden') + ' md:hidden px-2 py-1'}
+                                    size='42'
+                                />
+                                <div className={showFull ? 'block' : 'hidden md:block px-6 py-1 text-lg'}>LogOut</div>
                             </button>
                         </div>
                     ) : (
                         <NavLink
                             to='/signin'
                             style={({ isActive }) => (isActive ? { background: 'rgb(251 207 232)' } : undefined)}
-                            className='border-2 rounded-lg px-6 py-1 text-lg hover:bg-pink-200 border-pink-200'
+                            className=' hover:bg-pink-200 '
                             onClick={() => setShowFull(false)}>
-                            SignIn
+                            <FiLogIn
+                                className={
+                                    (!showFull ? 'block' : 'hidden') +
+                                    ' md:hidden border-2 border-pink-200 rounded-lg px-2 py-1'
+                                }
+                                size='42'
+                            />
+                            <div
+                                className={
+                                    showFull
+                                        ? 'block'
+                                        : 'hidden md:block border-2 border-pink-200 rounded-lg px-6 py-1 text-lg'
+                                }>
+                                SignIn
+                            </div>
                         </NavLink>
                     )}
                 </div>
