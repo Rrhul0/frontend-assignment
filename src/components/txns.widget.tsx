@@ -1,26 +1,32 @@
 import { useEffect, useState } from 'react'
 import { BsQuestionCircleFill } from 'react-icons/bs'
 import { GrRefresh } from 'react-icons/gr'
+import { useAppDispatch, useAppSelector } from '../app/hooks'
+import { selectTxns, updateTxns } from '../features/transactions/transationsSlice'
 import TxnCard from './TxnCard'
 
 //api endpoint
 const API_ENDPOINT = 'https://api.blockcypher.com/v1/eth/main/addrs/' //<ADDR>
 
 export default function TxnsWidget({ address }: { address?: `0x${string}` }) {
-    const [txns, setTxns] = useState<Array<any>>([])
+    const dispatch = useAppDispatch()
+    const txnsRedux = useAppSelector(selectTxns)
+
+    const txns = txnsRedux.txns
 
     useEffect(() => {
-        getTxns(address)
+        if (txns.length === 0) return
+        getTxns()
     }, [address])
 
-    async function getTxns(address?: `0x${string}`) {
+    async function getTxns() {
         if (!address) return
 
         try {
             const res = await fetch(API_ENDPOINT + address)
             const resJson = await res.json()
-            if (resJson.txrefs) setTxns(resJson.txrefs?.flat())
-            else setTxns([])
+            if (resJson.txrefs) dispatch(updateTxns(resJson.txrefs?.flat()))
+            else dispatch(updateTxns([]))
         } catch {
             console.log('something wrong with fetching transactions')
         }
@@ -41,7 +47,7 @@ export default function TxnsWidget({ address }: { address?: `0x${string}` }) {
                     </div>
                 </div>
                 <div className='relative flex flex-col items-center group'>
-                    <button onClick={() => getTxns(address)} className='bg-blue-400 p-2 rounded-lg'>
+                    <button onClick={() => getTxns()} className='bg-blue-400 p-2 rounded-lg'>
                         <GrRefresh />
                     </button>
                     <div className='absolute bottom-0 flex-col z-10 items-center hidden mb-9 group-hover:flex'>
@@ -54,8 +60,8 @@ export default function TxnsWidget({ address }: { address?: `0x${string}` }) {
             </div>
             {txns.length ? (
                 <ul className='overflow-scroll pb-10 h-full'>
-                    {txns.map((txn: any) => (
-                        <TxnCard txn={txn} />
+                    {txns.map(txn => (
+                        <TxnCard key={txn.hash} txn={txn} />
                     ))}
                 </ul>
             ) : (
