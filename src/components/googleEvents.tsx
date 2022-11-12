@@ -1,16 +1,19 @@
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
+import { GrRefresh } from 'react-icons/gr'
 import { useAppDispatch, useAppSelector } from '../app/hooks'
 import { apiCalendar } from '../app/utils'
 import { logIn, logOut, selectGoogleEvents, updateEvents } from '../features/events/eventSlice'
+import EventCard from './eventCard'
 
 export default function GoogleEvents() {
     const [showError, setShowError] = useState(false)
+    const [getEventsClick, setGetEventsClick] = useState(false)
     const googleEvents = useAppSelector(selectGoogleEvents)
     const dispatch = useAppDispatch()
 
     function getEvents() {
         apiCalendar
-            .listUpcomingEvents(10, 'primary')
+            .listUpcomingEvents(5, 'primary')
             .then((res: any) => {
                 const rawEvents = JSON.parse(res.body).items
                 dispatch(
@@ -25,6 +28,7 @@ export default function GoogleEvents() {
                         })
                     )
                 )
+                setGetEventsClick(false)
             })
             .catch(() => {
                 setShowError(true)
@@ -38,6 +42,7 @@ export default function GoogleEvents() {
 
         try {
             apiCalendar.handleAuthClick()
+            setGetEventsClick(true)
             dispatch(logIn())
         } catch (e) {
             console.log('error in google log in')
@@ -46,37 +51,45 @@ export default function GoogleEvents() {
         }
     }
     return (
-        <>
-            <div className={showError ? '' : 'hidden'}>
-                Error in getting events from google account <br /> Please Login again
+        <div className='flex flex-col gap-4'>
+            <div className='flex justify-between items-center pb-4'>
+                <h2 className='text-4xl font-bold text-pink-400'>Google Calendar Events</h2>
+                <button onClick={getEvents} className='bg-stone-200 hover:bg-stone-300 p-2 rounded-lg'>
+                    <GrRefresh />
+                </button>
             </div>
-            {googleEvents.loginStatus === 'loggedIn' ? (
-                <>
-                    <button onClick={getEvents}>get google calander events</button>
+            {showError ? (
+                <div className=' text-red-400 font-semibold '>
+                    Error in getting events from google account <br /> Please Login again!
+                </div>
+            ) : null}
+            {googleEvents.loginStatus !== 'loggedIn' ? (
+                <button
+                    onClick={googleLogin}
+                    className='bg-stone-300 self-center text-primary hover:bg-stone-400 px-5 py-1.5 rounded-lg font-semibold'>
+                    LogIn with Google Account
+                </button>
+            ) : (
+                <div className='flex flex-col gap-2'>
+                    <ul className='flex flex-col gap-4'>
+                        {googleEvents.events.length !== 0 ? (
+                            googleEvents.events.map(event => <EventCard key={event.id} event={event} />)
+                        ) : getEventsClick ? (
+                            <div className='text-secondry font-semibold'>Please Refresh Events</div>
+                        ) : (
+                            <div className='text-secondry font-semibold'>Google Account have no Events</div>
+                        )}
+                    </ul>
                     <button
+                        className='self-end bg-red-300 hover:bg-red-400 mt-4 py-1.5 px-5 rounded-xl text-primary font-semibold text-lg'
                         onClick={() => {
                             apiCalendar.handleSignoutClick()
                             dispatch(logOut())
                         }}>
-                        logout Google
+                        Logout Google Account
                     </button>
-                    <ul>
-                        {googleEvents.events.length !== 0 ? (
-                            googleEvents.events.map(event => (
-                                <li key={event.id}>
-                                    <h3>{event.desc}</h3>
-                                    <div>start date: {event.startDate}</div>
-                                    <div>end date: {event.endDate}</div>
-                                </li>
-                            ))
-                        ) : (
-                            <div>Google Account have no Events</div>
-                        )}
-                    </ul>
-                </>
-            ) : (
-                <button onClick={googleLogin}>LogIn</button>
+                </div>
             )}
-        </>
+        </div>
     )
 }

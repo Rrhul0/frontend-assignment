@@ -9,7 +9,7 @@ export default function Dashboard() {
     if (!isConnected) return <LoginFirst />
 
     return (
-        <div>
+        <div className='sm:p-4'>
             <div className='text-lg text-pink-400 font-bold'>Wallet Properties</div>
             <div className='border rounded-md py-2 px-3'>
                 <div className='text-lg font-semibold'>
