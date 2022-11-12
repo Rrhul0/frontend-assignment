@@ -60,23 +60,23 @@ export default function GoogleEvents() {
                         }}>
                         logout Google
                     </button>
+                    <ul>
+                        {googleEvents.events.length !== 0 ? (
+                            googleEvents.events.map(event => (
+                                <li key={event.id}>
+                                    <h3>{event.desc}</h3>
+                                    <div>start date: {event.startDate}</div>
+                                    <div>end date: {event.endDate}</div>
+                                </li>
+                            ))
+                        ) : (
+                            <div>Google Account have no Events</div>
+                        )}
+                    </ul>
                 </>
             ) : (
                 <button onClick={googleLogin}>LogIn</button>
             )}
-            <ul>
-                {googleEvents.events.length !== 0 ? (
-                    googleEvents.events.map(event => (
-                        <li key={event.id}>
-                            <h3>{event.desc}</h3>
-                            <div>start date: {event.startDate}</div>
-                            <div>end date: {event.endDate}</div>
-                        </li>
-                    ))
-                ) : (
-                    <div>Google Account have no Events</div>
-                )}
-            </ul>
         </>
     )
 }

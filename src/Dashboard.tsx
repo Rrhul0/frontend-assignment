@@ -14,15 +14,16 @@ export default function Dashboard() {
                         <div className='text-lg font-semibold'>
                             Address:
                             <span className='text-lg text-stone-700'>
-                                {' '}
                                 {ensName ? `${ensName} (${address})` : address}
                             </span>
                         </div>
                         <div>Connected to {connector?.name}</div>
                     </div>
+                    <GoogleEvents />
                 </div>
-            ) : null}
-            <GoogleEvents />
+            ) : (
+                <>Please Login with your Etherium Wallet first!</>
+            )}
         </>
     )
 }
