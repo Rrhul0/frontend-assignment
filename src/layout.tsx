@@ -20,7 +20,7 @@ export default function Layout() {
         <div className='h-screen w-screen flex pl-16 md:pl-0'>
             <div
                 className={
-                    (showFull ? 'px-6' : ' px-4 ') +
+                    (showFull ? 'px-10' : ' px-4 ') +
                     ' absolute z-10 left-0 top-0 md:static bg-white md:basis-2/12 flex flex-col items-center justify-between h-full py-10 md:px-12 border-r'
                 }>
                 <div className=' flex flex-col items-center gap-16 '>
@@ -96,7 +96,14 @@ export default function Layout() {
                     )}
                 </div>
             </div>
-            <main className='h-full p-4 flex-auto overflow-scroll'>
+            <main
+                className='h-full p-4 flex flex-col gap-4 flex-auto overflow-scroll'
+                onClick={() => setShowFull(false)}>
+                <Link to='/' className='md:hidden '>
+                    <h1 className='font-extrabold text-4xl text-primary uppercase border-b-2 pb-2 w-fit mb-4m px-4'>
+                        Samudai <span className='text-secondry'>Assignment</span>
+                    </h1>
+                </Link>
                 <Outlet />
             </main>
         </div>
