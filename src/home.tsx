@@ -48,7 +48,7 @@ export default function Home() {
                 <div className='flex gap-8 text-primaryBg items-center'>
                     <a
                         target='_blank'
-                        href='www.linkedin.com/in/rrhul0'
+                        href='https://www.linkedin.com/in/rrhul0'
                         rel='noreferrer'
                         className='hover:text-blue-400'>
                         <BsLinkedin size='30' />
