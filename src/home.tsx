@@ -45,7 +45,11 @@ export default function Home() {
                 <h2 className='uppercase text-primary font-bold text-2xl'>By Rahul</h2>
                 <div className='text-blue-600 font-semibold'>Follow or Contact me</div>
                 <div className='flex gap-8 text-primaryBg items-center'>
-                    <a target='_blank' href='#l' rel='noreferrer' className='hover:text-blue-400'>
+                    <a
+                        target='_blank'
+                        href='www.linkedin.com/in/rrhul0'
+                        rel='noreferrer'
+                        className='hover:text-blue-400'>
                         <BsLinkedin size='30' />
                     </a>
                     <a

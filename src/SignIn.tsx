@@ -26,7 +26,7 @@ export default function SignIn() {
                                 width='80'
                                 height='80'
                                 alt={connector.name + ' logo'}
-                                src={connector.name.split(' ')[0].toUpperCase() + '.png'}
+                                src={connector.name.split(' ')[0].toLowerCase() + '.png'}
                             />
                         </div>
                         <h3 className='text-3xl'>
