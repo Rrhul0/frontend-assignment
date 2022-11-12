@@ -9,14 +9,18 @@ export default function Dashboard() {
     if (!isConnected) return <LoginFirst />
 
     return (
-        <div className='sm:p-4'>
-            <div className='text-lg text-pink-400 font-bold'>Wallet Properties</div>
-            <div className='border rounded-md py-2 px-3'>
-                <div className='text-lg font-semibold'>
-                    Address:
-                    <span className='text-lg text-stone-700'>{ensName ? `${ensName} (${address})` : address}</span>
+        <div className='sm:px-4  flex flex-col gap-6'>
+            <div className='flex flex-col gap-2'>
+                <h2 className='text-pink-400 font-bold text-4xl'>Wallet Properties</h2>
+                <div className='border rounded-md py-4 px-4 lg:px-6'>
+                    <div className='text-lg font-semibold text-primary flex flex-col lg:flex-row lg:gap-2'>
+                        Address:
+                        <span className='text-sm md:text-base lg:text-lg text-stone-700 '>
+                            {ensName ? `${ensName} (${address})` : address}
+                        </span>
+                    </div>
+                    <div>Connected to {connector?.name} Wallet</div>
                 </div>
-                <div>Connected to {connector?.name}</div>
             </div>
             <GoogleEvents />
         </div>

@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react'
+import { useState } from 'react'
 import { GrRefresh } from 'react-icons/gr'
 import { useAppDispatch, useAppSelector } from '../app/hooks'
 import { apiCalendar } from '../app/utils'
