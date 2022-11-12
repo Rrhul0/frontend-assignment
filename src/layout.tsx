@@ -35,7 +35,8 @@ export default function Layout() {
                         <NavLink
                             className={'text-xl hover:text-stone-900 '}
                             style={({ isActive }) => (isActive ? { color: 'rgb(28 25 23 )' } : undefined)}
-                            to='/'>
+                            to='/'
+                            onClick={() => setShowFull(false)}>
                             <div className='flex items-center gap-2'>
                                 <FiHome size='30' />
                                 <div className={showFull ? 'block' : 'hidden md:block'}>Home</div>
@@ -45,7 +46,7 @@ export default function Layout() {
                             className='text-lg hover:text-stone-900'
                             style={({ isActive }) => (isActive ? { color: 'rgb(28 25 23 )' } : undefined)}
                             to='/dashboard'>
-                            <div className='flex items-center gap-2'>
+                            <div className='flex items-center gap-2' onClick={() => setShowFull(false)}>
                                 <MdOutlineSpaceDashboard size='32' />
                                 <div className={showFull ? 'block' : 'hidden md:block'}>Dashboard</div>
                             </div>
@@ -53,7 +54,8 @@ export default function Layout() {
                         <NavLink
                             className='text-lg hover:text-stone-900'
                             style={({ isActive }) => (isActive ? { color: 'rgb(28 25 23 )' } : undefined)}
-                            to='/stats'>
+                            to='/stats'
+                            onClick={() => setShowFull(false)}>
                             <div className='flex items-center gap-2 pl-1.5'>
                                 <ImStatsDots size='22' />
                                 <div className={showFull ? 'block' : 'hidden md:block'}>Statistics</div>
@@ -82,6 +84,7 @@ export default function Layout() {
                                 onClick={() => {
                                     disconnect()
                                     dispatch(logOut())
+                                    setShowFull(false)
                                 }}>
                                 LogOut
                             </button>
@@ -90,21 +93,22 @@ export default function Layout() {
                         <NavLink
                             to='/signin'
                             style={({ isActive }) => (isActive ? { background: 'rgb(251 207 232)' } : undefined)}
-                            className='border-2 rounded-lg px-6 py-1 text-lg hover:bg-pink-200 border-pink-200'>
+                            className='border-2 rounded-lg px-6 py-1 text-lg hover:bg-pink-200 border-pink-200'
+                            onClick={() => setShowFull(false)}>
                             SignIn
                         </NavLink>
                     )}
                 </div>
             </div>
-            <main
-                className='h-full p-4 flex flex-col gap-4 flex-auto overflow-scroll'
-                onClick={() => setShowFull(false)}>
-                <Link to='/' className='md:hidden '>
-                    <h1 className='font-extrabold text-4xl text-primary uppercase border-b-2 pb-2 w-fit mb-4m px-4'>
-                        Samudai <span className='text-secondry'>Assignment</span>
-                    </h1>
-                </Link>
-                <Outlet />
+            <main className='h-full p-4 flex flex-col flex-auto overflow-scroll' onClick={() => setShowFull(false)}>
+                <h1 className='md:hidden font-extrabold text-4xl text-primary uppercase border-b-2 pb-2 w-fit px-4'>
+                    <Link to='/'>
+                        Samudai <span className='text-secondry text-3xl'>Assignment</span>
+                    </Link>
+                </h1>
+                <div className='h-full py-4'>
+                    <Outlet />
+                </div>
             </main>
         </div>
     )
