@@ -5,7 +5,7 @@ export default function BlockHeightWidget() {
     const { data } = useBlockNumber({ watch: true })
 
     return (
-        <div className='col-span-3 flex flex-col items-center justify-center gap-4 bg-[#0B45F5] shadow-zinc-700 shadow-2xl text-white rounded-3xl p-8'>
+        <div className='lg:col-span-3 flex flex-col items-center justify-center gap-4 bg-[#0B45F5] shadow-zinc-700 shadow-2xl text-white rounded-3xl p-8'>
             <div className='flex items-center gap-3'>
                 <h3 className='font-bold text-3xl'>Current Block Height </h3>
                 <div className='relative flex flex-col items-center group'>

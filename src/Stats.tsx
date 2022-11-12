@@ -14,12 +14,12 @@ export default function Stats() {
     })
 
     return (
-        <div className='grid grid-cols-6 grid-rows-2 w-full h-full gap-8 p-4 '>
+        <div className='grid lg:grid-cols-6 lg:grid-rows-2 w-full h-full gap-8 p-4 '>
             <TxnsWidget address={address} />
-            <div className='bg-[#0B45F5] col-span-2 shadow-zinc-700  shadow-2xl rounded-2xl p-8 flex items-center justify-center text-[#f59191] text-3xl font-bold'>
+            <div className='bg-[#0B45F5] lg:col-span-2 shadow-zinc-700  shadow-2xl rounded-2xl p-8 flex items-center justify-center text-[#f59191] text-3xl font-bold'>
                 Widget not configured
             </div>
-            <div className='bg-[#0B45F5] col-span-3  shadow-zinc-700  shadow-2xl rounded-2xl p-8 flex items-center justify-center text-[#f59191] text-3xl font-bold'>
+            <div className='bg-[#0B45F5] lg:col-span-3  shadow-zinc-700  shadow-2xl rounded-2xl p-8 flex items-center justify-center text-[#f59191] text-3xl font-bold'>
                 Widget not configured
             </div>
             <BlockHeightWidget />

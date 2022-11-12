@@ -27,7 +27,7 @@ export default function TxnsWidget({ address }: { address?: `0x${string}` }) {
     }
 
     return (
-        <div className='bg-[#0B45F5] overflow-hidden col-span-4 shadow-zinc-700  shadow-2xl text-white rounded-3xl px-8 py-6'>
+        <div className='bg-[#0B45F5] overflow-hidden lg:col-span-4 shadow-zinc-700  shadow-2xl text-white rounded-3xl px-8 py-6'>
             <div className='flex items-center justify-between border-b-2 pb-2'>
                 <div className='flex items-center gap-3'>
                     <h3 className='font-bold text-3xl'>Transactions</h3>
